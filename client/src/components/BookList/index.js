@@ -22,7 +22,7 @@ export function BookListItem(props) {
             <button className="btn"><a id="btn" rel="noreferrer noopener" target="_blank" href={props.href}>
               View Book
             </a></button>
-            <button className="btn" id="btn" onClick={() => props.saveBook(props)}>Save Book</button>
+            <button className="btn" id="btn" onClick={props.handleSavedBook}>Save Book</button>
           </Col>
         </Row>
       </Container>

@@ -8,10 +8,6 @@ import { List, ListItem } from "../components/List";
 class Saved extends Component {
   state = {
     books: [],
-    title: "",
-    author: "",
-    description: "",
-    thumbnail: ""
   };
 
   componentDidMount() {
@@ -21,7 +17,7 @@ class Saved extends Component {
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", description: "" })
+        this.setState({ books: res.data })
       )
       .catch(err => console.log(err));
   };
@@ -41,18 +37,17 @@ class Saved extends Component {
       <Container fluid>
             {this.state.books.length ? (
               <List>
-                {this.state.books.map(books => (
+                {this.state.books.map(book => (
                   <ListItem
-                    key={books.id}
-                    title={books.title}
-                    author={books.author}
-                    id={books._id}
-                    href={books.href}
-                    thumbnail={books.thumbnail}
-                    description={books.description}
-                    deleteBook={this.deleteBook}
+                    key={book._id}
+                    title={book.title}
+                    author={book.author}
+                    href={book.href}
+                    thumbnail={book.thumbnail}
+                    description={book.description}
+                    deleteBook={() => this.deleteBook(book._id)}
                   />
-                  
+
                 ))}
               </List>
             ) : (

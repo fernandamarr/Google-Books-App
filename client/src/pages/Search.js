@@ -32,18 +32,13 @@ class Books extends Component {
         .catch(err => console.log(err));
   };
 
-  saveBook = bookData => {
-    API.saveBook({
-      title: bookData.title,
-      author: bookData.author,
-      description: bookData.description,
-      href: bookData.href,
-      thumbnail: bookData.thumbnail
-    })
-    .then(res => console.log(res.data))
+  handleSavedBook = data => {
+    console.log("This is the book data from handleSavedBook:")
+    console.log(data);
+    API.saveBook(data)
+    .then(res => this.loadBooks())
     .catch(err => console.log(err));
   }
-  
 
   render() {
     return (
@@ -90,7 +85,14 @@ class Books extends Component {
                         href={books.volumeInfo.previewLink}
                         thumbnail={books.volumeInfo.imageLinks.thumbnail}
                         description={books.volumeInfo.description}
-                        saveBook={this.saveBook}
+                        handleSavedBook={() => this.handleSavedBook({
+                          title: books.volumeInfo.title,
+                          author: books.volumeInfo.authors,
+                          id: books.id,
+                          href: books.volumeInfo.previewLink,
+                          thumbnail: books.volumeInfo.imageLinks.thumbnail,
+                          description: books.volumeInfo.description
+                        })}
                       />    
                   );              
                   })}                              
