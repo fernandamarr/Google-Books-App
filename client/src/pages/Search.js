@@ -36,7 +36,8 @@ class Books extends Component {
     console.log("This is the book data from handleSavedBook:")
     console.log(data);
     API.saveBook(data)
-    .then(res => this.loadBooks())
+    .then(res => alert("Your book was saved! 😄") && this.loadBooks())
+   
     .catch(err => console.log(err));
   }
 
