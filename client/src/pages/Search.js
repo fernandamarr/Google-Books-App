@@ -59,7 +59,7 @@ class Books extends Component {
             <Row>
             <Col size="md-12">
               {!this.state.books.length ? (
-                <h1 className="text-center">No Books To Display</h1>
+                <h1 id="message" className="text-center">No Books To Display</h1> 
               ) : (
                 <BookList>
                   {this.state.books.map(books => {
