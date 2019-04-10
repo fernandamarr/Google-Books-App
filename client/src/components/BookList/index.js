@@ -10,20 +10,20 @@ export function BookListItem({
   thumbnail = "https://placehold.it/300x300",
   title,
   author,
-  synopsis,
+  description,
   href
 }) {
   return (
     <li className="list-group-item">
       <Container>
         <Row>
-          <Col size="xs-4 sm-2">
+          <Col size="xs-4 sm-3">
             <Thumbnail src={thumbnail} />
           </Col>
           <Col size="xs-8 sm-9">
             <h3>{title}</h3>
-            <h3>{author}</h3>
-            <p>Synopsis: {synopsis}</p>
+            <h5>{author}</h5>
+            <p>{description}</p>
             <a rel="noreferrer noopener" target="_blank" href={href}>
               View Book
             </a>

@@ -8,27 +8,7 @@ import { Input, FormBtn } from "../components/Form";
 class Books extends Component {
   state = {
     books: [],
-    title: "",
-    author: "",
-    synopsis: ""
-  };
-
-  componentDidMount() {
-    this.loadBooks();
-  }
-
-  loadBooks = () => {
-    API.getBooks()
-      .then(res =>
-        this.setState({ books: res.data, title: "", author: ""})
-      )
-      .catch(err => console.log(err));
-  };
-
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
+    search: "",
   };
 
   handleInputChange = event => {
@@ -40,15 +20,11 @@ class Books extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-      })
-        .then(res => this.loadBooks())
+      API.searchBook(this.state.search)
+        .then(res => this.setState({ books: res.data.items }))
         .catch(err => console.log(err));
-    }
   };
+  
 
   render() {
     return (
@@ -58,31 +34,28 @@ class Books extends Component {
           <h5>Search for and Save Books of Interest</h5>
         </Jumbotron>
       <Container fluid>
-      <Col size="md-12">
+      <Row>
+      <Col size="md-6">
             <div>
             <form>
                 Book Search:
               <Input
-                value={this.state.title}
+                value={this.state.search}
                 onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
+                name="search"
+                placeholder="Search for a Book"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.search)}
                 onClick={this.handleFormSubmit}
+                type="success"
               >
                 Search Book
               </FormBtn>
             </form>
             </div>
             </Col>
+            </Row>
             <Row>
             <Col size="md-12">
               {!this.state.books.length ? (
@@ -90,16 +63,17 @@ class Books extends Component {
               ) : (
                 <BookList>
                   {this.state.books.map(books => {
-                    return (
-                      <BookListItem
-                        key={books.title}
-                        title={books.title}
-                        author={books.author}
-                        href={books.href}
-                        synopsis={books.synopsis}
-                        thumbnail={books.thumbnail}
-                      />
-                    );
+                    return(
+                      <BookListItem 
+                        key={books.id}
+                        title={books.volumeInfo.title}
+                        author={books.volumeInfo.authors}
+                        id={books.id}
+                        href={books.volumeInfo.previewLink}
+                        thumbnail={books.volumeInfo.imageLinks.thumbnail}
+                        description={books.volumeInfo.description}
+                      />    
+                  );              
                   })}
                 </BookList>
               )}
