@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {  Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 
-class Books extends Component {
+class Saved extends Component {
   state = {
     books: [],
     title: "",
     author: "",
     description: "",
-    image: ""
+    thumbnail: ""
   };
 
   componentDidMount() {
@@ -42,15 +41,18 @@ class Books extends Component {
       <Container fluid>
             {this.state.books.length ? (
               <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
+                {this.state.books.map(books => (
+                  <ListItem
+                    key={books.id}
+                    title={books.title}
+                    author={books.author}
+                    id={books._id}
+                    href={books.href}
+                    thumbnail={books.thumbnail}
+                    description={books.description}
+                    deleteBook={this.deleteBook}
+                  />
+                  
                 ))}
               </List>
             ) : (
@@ -62,4 +64,4 @@ class Books extends Component {
   }
 }
 
-export default Books;
+export default Saved;

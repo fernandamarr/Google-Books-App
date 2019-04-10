@@ -14,16 +14,8 @@ export function Input(props) {
 // Destructuring the type, className, children and onClick props, applying them to the button element
 export function FormBtn({ children, onClick }) {
   return (
-    <button onClick={onClick} style={{ float: "center", marginBottom: 10 }} className={"btn"}>
+    <button onClick={onClick} style={{ float: "center", marginBottom: 10 }} id="btn" className={"btn"}>
       {children}
     </button>
   );
 }
-
-// export function FormBtn(props) {
-//   return (
-//     <button {...props} style={{ float: "right", marginBottom: 10 }} className="btn">
-//       {props.children}
-//     </button>
-//   );
-// }

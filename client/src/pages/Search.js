@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
-import { BookList, BookListItem } from "../components/BookList";
+import { BookListItem } from "../components/BookList";
 import API from "../utils/API";
 import { Container, Row, Col } from "../components/Grid";
 import { Input, FormBtn } from "../components/Form";
@@ -9,7 +9,14 @@ class Books extends Component {
   state = {
     books: [],
     search: "",
+    title: "",
+    author: "",
+    description: ""
   };
+
+  componentDidMount() {
+
+  }
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -24,6 +31,18 @@ class Books extends Component {
         .then(res => this.setState({ books: res.data.items }))
         .catch(err => console.log(err));
   };
+
+  saveBook = bookData => {
+    API.saveBook({
+      title: bookData.title,
+      author: bookData.author,
+      description: bookData.description,
+      href: bookData.href,
+      thumbnail: bookData.thumbnail
+    })
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err));
+  }
   
 
   render() {
@@ -48,7 +67,6 @@ class Books extends Component {
               <FormBtn
                 disabled={!(this.state.search)}
                 onClick={this.handleFormSubmit}
-                type="success"
               >
                 Search Book
               </FormBtn>
@@ -61,7 +79,7 @@ class Books extends Component {
               {!this.state.books.length ? (
                 <h1 id="message" className="text-center">No Books To Display</h1> 
               ) : (
-                <BookList>
+                <div>
                   {this.state.books.map(books => {
                     return(
                       <BookListItem 
@@ -72,10 +90,12 @@ class Books extends Component {
                         href={books.volumeInfo.previewLink}
                         thumbnail={books.volumeInfo.imageLinks.thumbnail}
                         description={books.volumeInfo.description}
+                        saveBook={this.saveBook}
                       />    
                   );              
-                  })}
-                </BookList>
+                  })}                              
+               </div>
+
               )}
             </Col>
           </Row>
